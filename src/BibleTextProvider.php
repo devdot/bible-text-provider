@@ -30,22 +30,20 @@ class BibleTextProvider
     }
 
     /**
-     * @return array<int, Verse>
+     *  Note: this will only work with verses withing a single chapter!
+     *  @return array<int, Verse>
      */
-    public function getVersesForReference(BibleVerseInterface $reference, ?string $bibleId = null): array
+    public function getVersesFromReference(BibleVerseInterface $reference, ?string $bibleId = null): array
     {
-        $verses = [];
         $bible = $bibleId ? $this->getBible($bibleId) : $this->getDefaultBible();
-        // todo: this wont work well for references spanning multiple chapters or books
-        for ($book = $reference->getFromBookId(); $book <= $reference->getToBookId(); $book++) {
-            $bookId = BookIdResolver::TO_BOOK_ID[$book] ?? '';
-            for ($chapter = $reference->getFromChapter(); $chapter <= $reference->getToChapter(); $chapter++) {
-                for ($verse = $reference->getFromVerse(); $verse <= $reference->getToVerse(); $verse++) {
-                    $result = $bible->books[$bookId]?->chapters[$chapter]?->verses[$verse] ?? null;
-                    if ($result) {
-                        $verses[] = $result;
-                    }
-                }
+        $verses = [];
+
+        $bookId = BookIdResolver::TO_BOOK_ID[$reference->getFromBookId()] ?? '';
+        $chapter = $reference->getFromChapter();
+        for ($verse = $reference->getFromVerse(); $verse <= $reference->getToVerse(); $verse++) {
+            $result = $bible->books[$bookId]?->chapters[$chapter]?->verses[$verse] ?? null;
+            if ($result) {
+                $verses[] = $result;
             }
         }
         return $verses;

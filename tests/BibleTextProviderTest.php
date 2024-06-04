@@ -33,17 +33,17 @@ class BibleTextProviderTest extends UnitTestCase
         $this->assertEmpty($provider->getAvailableBibles());
     }
 
-    public function testGetVersesForReference(): void
+    public function testGetVersesFromReference(): void
     {
         $provider = new BibleTextProvider($this->getBiblesLoader());
         $service = new BibleVerseService();
         $reference = $service->stringToBibleVerse('Gen 1:1')[0] ?? null;
         $this->assertNotNull($reference);
 
-        $this->assertSame('In the Beginning there was void.', $provider->getVersesForReference($reference)[0]->getText());
+        $this->assertSame('In the Beginning there was void.', $provider->getVersesFromReference($reference)[0]->getText());
 
         $reference = $service->stringToBibleVerse('Gen 1:1-2')[0] ?? null;
-        $verses = $provider->getVersesForReference($reference);
+        $verses = $provider->getVersesFromReference($reference);
         $this->assertCount(2, $verses);
         $this->assertSame(1, $verses[0]->number);
         $this->assertSame(2, $verses[1]->number);
