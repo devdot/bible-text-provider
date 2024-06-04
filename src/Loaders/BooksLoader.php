@@ -11,7 +11,13 @@ use Devdot\Bible\Text\Entities\Verse;
  */
 class BooksLoader extends LazyLoader
 {
+    /**
+     * @var array<string, null|array{id: string, abbreviation: string, name: string, name_long: string, chapters: array<int, array<int, string|array<string>>>}>
+     */
     private array $booksRaw = [];
+    /**
+     * @var array<string, array{id: string, abbreviation: string, description: string, copyright: string, language: string, updated_at: string, books: string}>
+     */
     private ?array $bookListRaw = null;
 
     public function __construct(
@@ -21,8 +27,13 @@ class BooksLoader extends LazyLoader
 
     }
 
+    /**
+     * @param string $id
+     */
     protected function load(string|int $id): ?Book
     {
+        $id = (string) $id;
+
         if(!array_key_exists($id, $this->booksRaw)) {
             // check the book list
             $this->bookListRaw ??= $this->getFileInclude($this->dataPath . '/' . $this->dataFilename);
@@ -36,10 +47,14 @@ class BooksLoader extends LazyLoader
             }
 
             // load raw
+            // @phpstan-ignore-next-line
             $this->booksRaw[$id] = $this->getFileInclude($this->dataPath . '/' . $bookPath);
         }
 
         $raw = $this->booksRaw[$id];
+        if ($raw === null) {
+            return null;
+        }
 
         return new Book(
             $raw['id'],
@@ -51,7 +66,7 @@ class BooksLoader extends LazyLoader
     }
 
     /**
-     * @param array<int, array<int, string|<array<string>>> $raw
+     * @param array<int, array<int, string|array<string>>> $raw
      * @return array<Chapter>
      */
     private function buildChaptersFromRaw(array $raw): array

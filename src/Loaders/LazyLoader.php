@@ -6,14 +6,14 @@ use Devdot\Bible\Text\Entities\Entity;
 use Devdot\Bible\Text\Exceptions\FileNotFoundException;
 
 /**
- * @template TKey
- * @template TEntity
+ * @template TKey of int|string
+ * @template TEntity of Entity
  * @extends Loader<TKey, TEntity>
  */
 abstract class LazyLoader extends Loader
 {
     /**
-     * @var array<TKey, TEntity>
+     * @var array<TKey, ?TEntity>
      */
     private array $entities = [];
 
@@ -24,7 +24,7 @@ abstract class LazyLoader extends Loader
     abstract protected function load(string|int $id): ?Entity;
 
     /**
-     * @param array<TKey, TEntity> $entities
+     * @param array<TKey, ?TEntity> $entities
      */
     protected function setEntities(array $entities): void
     {
@@ -32,7 +32,7 @@ abstract class LazyLoader extends Loader
     }
 
     /**
-     * @return array<TKey, TEntity>
+     * @return array<TKey, ?TEntity>
      */
     protected function getEntities(): array
     {
@@ -60,7 +60,7 @@ abstract class LazyLoader extends Loader
     }
 
 
-
+    // @phpstan-ignore-next-line
     protected function getFileInclude(string $path): array
     {
         if (!file_exists($path)) {

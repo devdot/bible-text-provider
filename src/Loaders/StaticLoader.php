@@ -5,8 +5,8 @@ namespace Devdot\Bible\Text\Loaders;
 use Devdot\Bible\Text\Entities\Entity;
 
 /**
- * @template TKey
- * @template TEntity
+ * @template TKey of int|string
+ * @template TEntity of Entity
  * @extends Loader<TKey, TEntity>
  */
 class StaticLoader extends Loader

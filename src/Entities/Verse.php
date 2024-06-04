@@ -4,6 +4,9 @@ namespace Devdot\Bible\Text\Entities;
 
 class Verse extends Entity
 {
+    /**
+     * @param array<string> $segments
+     */
     public function __construct(
         public readonly int $number,
         public readonly array $segments,

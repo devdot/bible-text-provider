@@ -10,6 +10,9 @@ use Devdot\Bible\Text\Entities\Bible;
  */
 class BiblesLoader extends LazyLoader
 {
+    /**
+     * @var ?array<string, array{id:string, abbreviation: string, name: string, description: string, copyright: string, language: string, updated_at: string, books: string}>
+     */
     private ?array $biblesData = null;
 
     public function __construct(
@@ -31,9 +34,12 @@ class BiblesLoader extends LazyLoader
             }
         }
 
-        return array_values($this->getEntities());
+        return array_values(array_filter($this->getEntities()));
     }
 
+    /**
+     * @param string $id
+     */
     protected function load(string|int $id): ?Bible
     {
         $raw = $this->getBiblesRawData()[$id] ?? null;
