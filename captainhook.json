@@ -1,0 +1,21 @@
+{
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "composer format"
+            }
+        ]
+    },
+    "pre-push": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "composer check-static"
+            },
+            {
+                "action": "composer test"
+            }
+        ]
+    }
+}
