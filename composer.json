@@ -14,6 +14,12 @@
             "email": "mail@thomaskuschan.de"
         }
     ],
+    "require": {
+        "php": "^8.2"
+    },
+    "suggest": {
+        "stevenbuehner/bible-verse-bundle": "^2.6"
+    },
     "require-dev": {
         "phpunit/phpunit": "^11.1",
         "phpstan/phpstan": "^1.11",
@@ -26,9 +32,6 @@
         "psr-4": {
             "Tests\\": "tests/"
         }
-    },
-    "require": {
-        "php": "^8.2"
     },
     "scripts": {
         "check-static": "phpstan analyze src --level=9",
